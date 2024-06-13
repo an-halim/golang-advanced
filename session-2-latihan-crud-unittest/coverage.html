@@ -57,15 +57,13 @@
 				
 				<option value="file0">github.com/an-halim/golang-advanced/session-2-latihan-crud-unittest/handler/user_handler.go (100.0%)</option>
 				
-				<option value="file1">github.com/an-halim/golang-advanced/session-2-latihan-crud-unittest/main.go (0.0%)</option>
+				<option value="file1">github.com/an-halim/golang-advanced/session-2-latihan-crud-unittest/middleware/auth.go (100.0%)</option>
 				
-				<option value="file2">github.com/an-halim/golang-advanced/session-2-latihan-crud-unittest/middleware/auth.go (50.0%)</option>
+				<option value="file2">github.com/an-halim/golang-advanced/session-2-latihan-crud-unittest/repository/silce/user.go (100.0%)</option>
 				
-				<option value="file3">github.com/an-halim/golang-advanced/session-2-latihan-crud-unittest/repository/silce/user.go (100.0%)</option>
+				<option value="file3">github.com/an-halim/golang-advanced/session-2-latihan-crud-unittest/router/route.go (100.0%)</option>
 				
-				<option value="file4">github.com/an-halim/golang-advanced/session-2-latihan-crud-unittest/router/route.go (100.0%)</option>
-				
-				<option value="file5">github.com/an-halim/golang-advanced/session-2-latihan-crud-unittest/service/user_service.go (100.0%)</option>
+				<option value="file4">github.com/an-halim/golang-advanced/session-2-latihan-crud-unittest/service/user_service.go (100.0%)</option>
 				
 				</select>
 			</div>
@@ -186,27 +184,7 @@ func (h *UserHandler) GetAllUsers(c *gin.Context) <span class="cov8" title="1">{
 }</span>
 </pre>
 		
-		<pre class="file" id="file1" style="display: none">package main
-
-import (
-        "fmt"
-
-        "github.com/an-halim/golang-advanced/session-2-latihan-crud/router"
-        "github.com/gin-gonic/gin"
-)
-
-func main() <span class="cov0" title="0">{
-        gin.SetMode(gin.ReleaseMode)
-        r := gin.Default()
-
-        router.SetupRouter(r)
-
-        fmt.Println("Server is running at :8000")
-        r.Run(":8000")
-}</span>
-</pre>
-		
-		<pre class="file" id="file2" style="display: none">package middleware
+		<pre class="file" id="file1" style="display: none">package middleware
 
 import (
         "net/http"
@@ -226,20 +204,20 @@ func AuthMiddleware() gin.HandlerFunc <span class="cov8" title="1">{
                         return
                 }</span>
 
-                <span class="cov0" title="0">isValid := (username == config.AuthBasicUsername) &amp;&amp; (password == config.AuthBasicPassword)
-                if !isValid </span><span class="cov0" title="0">{
+                <span class="cov8" title="1">isValid := (username == config.AuthBasicUsername) &amp;&amp; (password == config.AuthBasicPassword)
+                if !isValid </span><span class="cov8" title="1">{
                         c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid authorization token"})
                         c.Abort()
                         return
                 }</span>
 
                 // Lanjutkan ke handler berikutnya jika token valid
-                <span class="cov0" title="0">c.Next()</span>
+                <span class="cov8" title="1">c.Next()</span>
         }
 }
 </pre>
 		
-		<pre class="file" id="file3" style="display: none">package slice
+		<pre class="file" id="file2" style="display: none">package slice
 
 import (
         "time"
@@ -312,7 +290,7 @@ func (r *userRepository) GetAllUsers() []entity.User <span class="cov8" title="1
 }</span>
 </pre>
 		
-		<pre class="file" id="file4" style="display: none">// package router mengatur rute untuk aplikasi
+		<pre class="file" id="file3" style="display: none">// package router mengatur rute untuk aplikasi
 package router
 
 import (
@@ -345,7 +323,7 @@ func SetupRouter(r *gin.Engine, userHandler handler.IUserHandler) <span class="c
 }</span>
 </pre>
 		
-		<pre class="file" id="file5" style="display: none">package service
+		<pre class="file" id="file4" style="display: none">package service
 
 import (
         "fmt"
