@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/an-halim/golang-advanced/session-2-unittest/router"
+	"github.com/an-halim/golang-advanced/session-3-unittest/router"
 	"github.com/gin-gonic/gin"
 )
 

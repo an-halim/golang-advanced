@@ -1,8 +1,8 @@
 package router
 
 import (
-	"github.com/an-halim/golang-advanced/session-2-unittest/handler"
-	"github.com/an-halim/golang-advanced/session-2-unittest/middleware"
+	"github.com/an-halim/golang-advanced/session-3-unittest/handler"
+	"github.com/an-halim/golang-advanced/session-3-unittest/middleware"
 	"github.com/gin-gonic/gin"
 )
 

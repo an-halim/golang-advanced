@@ -3,7 +3,7 @@ package router_test
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/an-halim/golang-advanced/session-2-unittest/router"
+	"github.com/an-halim/golang-advanced/session-3-unittest/router"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"net/http"
