@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/an-halim/golang-advanced/session-6-pg-database/entity"
+	"github.com/an-halim/golang-advanced/session-6-pg-database/response"
 	"github.com/an-halim/golang-advanced/session-6-pg-database/service"
 	"github.com/gin-gonic/gin"
 )
@@ -36,40 +37,74 @@ func (h *UserHandler) CreateUser(c *gin.Context) {
 	if err := c.ShouldBindJSON(&user); err != nil {
 		errMsg := err.Error()
 		errMsg = convertUserMandatoryFieldErrorString(errMsg)
-		c.JSON(http.StatusBadRequest, gin.H{"error": errMsg})
+		apiResponse := response.Failed{
+			Status:  "failed",
+			Message: errMsg,
+		}
+		c.JSON(http.StatusBadRequest, apiResponse)
 		return
 	}
 
 	createdUser, err := h.userService.CreateUser(c.Request.Context(), &user)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		apiResponse := response.Failed{
+			Status:  "failed",
+			Message: err.Error(),
+		}
+		c.JSON(http.StatusBadRequest, apiResponse)
 		return
 	}
-	c.JSON(http.StatusCreated, createdUser)
+
+	apiResponse := response.Success{
+		Status:  "success",
+		Message: "User created successfully",
+		Data:    createdUser,
+	}
+
+	c.JSON(http.StatusOK, apiResponse)
 }
 
 // GetUser menghandle permintaan untuk mendapatkan user berdasarkan ID
 func (h *UserHandler) GetUser(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+		apiResponse := response.Failed{
+			Status:  "failed",
+			Message: "Invalid ID",
+		}
+		c.JSON(http.StatusBadRequest, apiResponse)
 		return
 	}
 
 	user, err := h.userService.GetUserByID(c.Request.Context(), id)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		apiResponse := response.Failed{
+			Status:  "failed",
+			Message: "User not found",
+		}
+		c.JSON(http.StatusNotFound, apiResponse)
 		return
 	}
 
-	c.JSON(http.StatusOK, user)
+	apiResponse := response.Success{
+		Status:  "success",
+		Message: "User found",
+		Data:    user,
+	}
+
+	c.JSON(http.StatusOK, apiResponse)
 }
 
 // UpdateUser menghandle permintaan untuk mengupdate informasi user
 func (h *UserHandler) UpdateUser(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+
+		apiResponse := response.Failed{
+			Status:  "failed",
+			Message: "Invalid ID",
+		}
+		c.JSON(http.StatusBadRequest, apiResponse)
 		return
 	}
 
@@ -77,43 +112,102 @@ func (h *UserHandler) UpdateUser(c *gin.Context) {
 	if err := c.ShouldBindJSON(&user); err != nil {
 		errMsg := err.Error()
 		errMsg = convertUserMandatoryFieldErrorString(errMsg)
-		c.JSON(http.StatusBadRequest, gin.H{"error": errMsg})
+		apiResponse := response.Failed{
+			Status:  "failed",
+			Message: errMsg,
+		}
+		c.JSON(http.StatusBadRequest, apiResponse)
 		return
 	}
 
 	updatedUser, err := h.userService.UpdateUser(c.Request.Context(), id, user)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		apiResponse := response.Failed{
+			Status:  "failed",
+			Message: err.Error(),
+		}
+		c.JSON(http.StatusNotFound, apiResponse)
 		return
 	}
 
-	c.JSON(http.StatusOK, updatedUser)
+	apiResponse := response.Success{
+		Status:  "success",
+		Message: "User updated successfully",
+		Data:    updatedUser,
+	}
+
+	c.JSON(http.StatusOK, apiResponse)
 }
 
 // DeleteUser menghandle permintaan untuk menghapus user
 func (h *UserHandler) DeleteUser(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+		apiResponse := response.Failed{
+			Status:  "failed",
+			Message: "Invalid ID",
+		}
+		c.JSON(http.StatusBadRequest, apiResponse)
 		return
 	}
 
 	if err := h.userService.DeleteUser(c.Request.Context(), id); err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		apiResponse := response.Failed{
+			Status:  "failed",
+			Message: err.Error(),
+		}
+		c.JSON(http.StatusNotFound, apiResponse)
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "User deleted"})
+	apiResponse := response.Success{
+		Status:  "success",
+		Message: "User deleted successfully",
+	}
+
+	c.JSON(http.StatusOK, apiResponse)
 }
 
 // GetAllUsers menghandle permintaan untuk mendapatkan semua user
 func (h *UserHandler) GetAllUsers(c *gin.Context) {
-	users, err := h.userService.GetAllUsers(c.Request.Context())
+	pageSize := c.DefaultQuery("size", "10")
+	currentPage := c.DefaultQuery("page", "1")
+
+	pageSizeInt, err := strconv.Atoi(pageSize)
+	if err != nil {
+		apiResponse := response.Failed{
+			Status:  "failed",
+			Message: "Invalid page size",
+		}
+		c.JSON(http.StatusBadRequest, apiResponse)
+		return
+	}
+
+	currentPageInt, err := strconv.Atoi(currentPage)
+	if err != nil {
+		apiResponse := response.Failed{
+			Status:  "failed",
+			Message: "Invalid page number",
+		}
+		c.JSON(http.StatusBadRequest, apiResponse)
+		return
+	}
+
+	offset := pageSizeInt * (currentPageInt - 1)
+
+	users, err := h.userService.GetAllUsers(c.Request.Context(), pageSizeInt, offset)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, users)
+	apiResponse := response.GetAll{
+		Status:      "success",
+		Data:        users,
+		PageSize:    pageSizeInt,
+		CurrentPage: currentPageInt,
+	}
+
+	c.JSON(http.StatusOK, apiResponse)
 }
 
 func convertUserMandatoryFieldErrorString(oldErrorMsg string) string {
