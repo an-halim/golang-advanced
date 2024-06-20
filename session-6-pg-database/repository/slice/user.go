@@ -63,6 +63,6 @@ func (r *userRepository) DeleteUser(ctx context.Context, id int) error {
 	return errors.New("user not found")
 }
 
-func (r *userRepository) GetAllUsers(ctx context.Context) ([]entity.User, error) {
+func (r *userRepository) GetAllUsers(ctx context.Context, pageSize, offset int) ([]entity.User, error) {
 	return r.db, nil
 }

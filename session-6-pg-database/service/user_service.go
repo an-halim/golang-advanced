@@ -13,7 +13,7 @@ type IUserService interface {
 	GetUserByID(ctx context.Context, id int) (entity.User, error)
 	UpdateUser(ctx context.Context, id int, user entity.User) (entity.User, error)
 	DeleteUser(ctx context.Context, id int) error
-	GetAllUsers(ctx context.Context) ([]entity.User, error)
+	GetAllUsers(ctx context.Context, pageSize int, page int) ([]entity.User, error)
 }
 
 // IUserRepository mendefinisikan interface untuk repository pengguna
@@ -22,7 +22,7 @@ type IUserRepository interface {
 	GetUserByID(ctx context.Context, id int) (entity.User, error)
 	UpdateUser(ctx context.Context, id int, user entity.User) (entity.User, error)
 	DeleteUser(ctx context.Context, id int) error
-	GetAllUsers(ctx context.Context) ([]entity.User, error)
+	GetAllUsers(ctx context.Context, pageSize int, page int) ([]entity.User, error)
 }
 
 // userService adalah implementasi dari IUserService yang menggunakan IUserRepository
@@ -76,9 +76,9 @@ func (s *userService) DeleteUser(ctx context.Context, id int) error {
 }
 
 // GetAllUsers mendapatkan semua pengguna
-func (s *userService) GetAllUsers(ctx context.Context) ([]entity.User, error) {
+func (s *userService) GetAllUsers(ctx context.Context, pageSize int, page int) ([]entity.User, error) {
 	// Memanggil GetAllUsers dari repository untuk mendapatkan semua pengguna
-	users, err := s.userRepo.GetAllUsers(ctx)
+	users, err := s.userRepo.GetAllUsers(ctx, pageSize, page)
 	if err != nil {
 		return nil, fmt.Errorf("gagal mendapatkan semua pengguna: %v", err)
 	}

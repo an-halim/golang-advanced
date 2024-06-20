@@ -69,10 +69,10 @@ func (r *userRepository) DeleteUser(ctx context.Context, id int) error {
 	return nil
 }
 
-func (r *userRepository) GetAllUsers(ctx context.Context) ([]entity.User, error) {
+func (r *userRepository) GetAllUsers(ctx context.Context, pageSize, offset int) ([]entity.User, error) {
 	var users []entity.User
-	query := "SELECT id, name, email, password, created_at, updated_at FROM users"
-	rows, err := r.db.Query(ctx, query)
+	query := "SELECT id, name, email, password, created_at, updated_at FROM users LIMIT $1 OFFSET $2"
+	rows, err := r.db.Query(ctx, query, pageSize, offset)
 	if err != nil {
 		log.Printf("Error getting all users: %v\n", err)
 		return nil, err
