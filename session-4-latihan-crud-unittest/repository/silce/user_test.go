@@ -3,8 +3,8 @@ package slice_test
 import (
 	"testing"
 
-	"github.com/an-halim/golang-advanced/session-2-latihan-crud-unittest/entity"
-	slice "github.com/an-halim/golang-advanced/session-2-latihan-crud-unittest/repository/silce"
+	"github.com/an-halim/golang-advanced/session-4-latihan-crud-unittest/entity"
+	slice "github.com/an-halim/golang-advanced/session-4-latihan-crud-unittest/repository/silce"
 	"github.com/stretchr/testify/require"
 )
 

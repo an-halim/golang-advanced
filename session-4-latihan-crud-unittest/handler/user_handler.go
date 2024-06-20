@@ -6,8 +6,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/an-halim/golang-advanced/session-2-latihan-crud-unittest/entity"
-	"github.com/an-halim/golang-advanced/session-2-latihan-crud-unittest/service"
+	"github.com/an-halim/golang-advanced/session-4-latihan-crud-unittest/entity"
+	"github.com/an-halim/golang-advanced/session-4-latihan-crud-unittest/service"
 )
 
 // IUserHandler mendefinisikan interface untuk handler user

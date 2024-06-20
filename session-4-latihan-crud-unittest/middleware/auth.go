@@ -3,7 +3,7 @@ package middleware
 import (
 	"net/http"
 
-	"github.com/an-halim/golang-advanced/session-2-latihan-crud-unittest/config"
+	"github.com/an-halim/golang-advanced/session-4-latihan-crud-unittest/config"
 	"github.com/gin-gonic/gin"
 )
 

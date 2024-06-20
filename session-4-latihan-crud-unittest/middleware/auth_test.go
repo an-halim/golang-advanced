@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/an-halim/golang-advanced/session-2-latihan-crud-unittest/middleware"
+	"github.com/an-halim/golang-advanced/session-4-latihan-crud-unittest/middleware"
 	"github.com/stretchr/testify/require"
 
 	"github.com/gin-gonic/gin"

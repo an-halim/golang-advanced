@@ -3,7 +3,7 @@ package handler_test
 import (
 	"errors"
 
-	"github.com/an-halim/golang-advanced/session-2-latihan-crud-unittest/entity"
+	"github.com/an-halim/golang-advanced/session-4-latihan-crud-unittest/entity"
 )
 
 // MockUserService adalah mock untuk service.IUserService

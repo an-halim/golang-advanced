@@ -9,8 +9,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/an-halim/golang-advanced/session-2-latihan-crud-unittest/entity"
-	"github.com/an-halim/golang-advanced/session-2-latihan-crud-unittest/handler"
+	"github.com/an-halim/golang-advanced/session-4-latihan-crud-unittest/entity"
+	"github.com/an-halim/golang-advanced/session-4-latihan-crud-unittest/handler"
 	"github.com/gin-gonic/gin"
 )
 

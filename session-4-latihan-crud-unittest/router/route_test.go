@@ -6,7 +6,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/an-halim/golang-advanced/session-2-latihan-crud-unittest/router"
+	"github.com/an-halim/golang-advanced/session-4-latihan-crud-unittest/router"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/require"
 )

@@ -2,8 +2,8 @@
 package router
 
 import (
-	"github.com/an-halim/golang-advanced/session-2-latihan-crud-unittest/handler"
-	"github.com/an-halim/golang-advanced/session-2-latihan-crud-unittest/middleware"
+	"github.com/an-halim/golang-advanced/session-4-latihan-crud-unittest/handler"
+	"github.com/an-halim/golang-advanced/session-4-latihan-crud-unittest/middleware"
 	"github.com/gin-gonic/gin"
 )
 
