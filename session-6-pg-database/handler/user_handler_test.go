@@ -284,7 +284,7 @@ func TestUserHandler_GetAllUsers(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 
 	t.Run("ValidRequest", func(t *testing.T) {
-		mockService.EXPECT().GetAllUsers(gomock.Any()).Return([]entity.User{
+		mockService.EXPECT().GetAllUsers(gomock.Any(), 10, 1).Return([]entity.User{
 			{ID: 1, Name: "John Doe", Email: "john@example.com"},
 			{ID: 2, Name: "Jane Doe", Email: "jane@example.com"},
 		}, nil)
@@ -301,7 +301,7 @@ func TestUserHandler_GetAllUsers(t *testing.T) {
 	})
 
 	t.Run("ServiceError", func(t *testing.T) {
-		mockService.EXPECT().GetAllUsers(gomock.Any()).Return(nil, errors.New("some service error"))
+		mockService.EXPECT().GetAllUsers(gomock.Any(), 10, 1).Return(nil, errors.New("some service error"))
 
 		req := httptest.NewRequest(http.MethodGet, "/users", nil)
 		resp := httptest.NewRecorder()

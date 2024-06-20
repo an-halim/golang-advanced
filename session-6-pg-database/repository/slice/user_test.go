@@ -91,7 +91,7 @@ func TestGetAllUsers(t *testing.T) {
 	repo := slice.NewUserRepository(users)
 	userService := service.NewUserService(repo)
 
-	allUsers, err := userService.GetAllUsers(context.Background())
+	allUsers, err := userService.GetAllUsers(context.Background(), 10, 1)
 	require.NoError(t, err)
 	require.Len(t, allUsers, 2)
 }

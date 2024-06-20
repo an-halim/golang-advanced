@@ -175,17 +175,17 @@ func TestUserService_GetAllUsers(t *testing.T) {
 	}
 
 	t.Run("PositiveCase", func(t *testing.T) {
-		mockRepo.EXPECT().GetAllUsers(ctx).Return(users, nil)
+		mockRepo.EXPECT().GetAllUsers(ctx, 10, 1).Return(users, nil)
 
-		retrievedUsers, err := userService.GetAllUsers(ctx)
+		retrievedUsers, err := userService.GetAllUsers(ctx, 10, 1)
 		assert.NoError(t, err)
 		assert.Equal(t, users, retrievedUsers)
 	})
 
 	t.Run("NegativeCase", func(t *testing.T) {
-		mockRepo.EXPECT().GetAllUsers(ctx).Return([]entity.User{}, errors.New("no users found"))
+		mockRepo.EXPECT().GetAllUsers(ctx, 10, 1).Return([]entity.User{}, errors.New("no users found"))
 
-		retrievedUsers, err := userService.GetAllUsers(ctx)
+		retrievedUsers, err := userService.GetAllUsers(ctx, 10, 1)
 		assert.Error(t, err)
 		assert.Contains(t, err.Error(), "no users found")
 		assert.Empty(t, retrievedUsers)
