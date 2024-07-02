@@ -51,12 +51,12 @@ func (s *submissionService) CreateSubmission(ctx context.Context, input request.
 		return 0, fmt.Errorf("failed to marshal answers: %v", err)
 	}
 
-	data := request.ValidateProfile(input.Answers)
+	data, totalScore := request.ValidateProfile(input.Answers)
 	var submission entity.Submission
 	submission.UserID = input.UserId
 	submission.Answers = answersJSON
 	submission.RiskCategory = string(data.Category)
-	submission.RiskScore = data.MaxScore + data.MinScore
+	submission.RiskScore = totalScore
 
 	user, err := s.userService.GetUserByID(ctx, input.UserId)
 	if err != nil || user.ID == 0 {

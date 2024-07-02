@@ -31,7 +31,9 @@ func (r *submissionRepository) CreateSubmission(ctx context.Context, submission 
 // GetSubmissionByID mengambil submission berdasarkan ID
 func (r *submissionRepository) GetSubmissionByID(ctx context.Context, id int) (entity.Submission, error) {
 	var submission entity.Submission
-	if err := r.db.WithContext(ctx).Preload("User").First(&submission, id).Error; err != nil {
+	if err := r.db.WithContext(ctx).Preload("User", func(db *gorm.DB) *gorm.DB {
+		return db.Order("users.created_at DESC")
+	}).First(&submission, id).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return entity.Submission{}, nil
 		}

@@ -23,7 +23,8 @@ func TestSubmissionService_CreateSubmission(t *testing.T) {
 
 	mockRepo := mock_service.NewMockISubmissionRepository(ctrl)
 	userMock := mock_service.NewMockIUserRepository(ctrl)
-	submissionService := service.NewSubmissionService(mockRepo, userMock)
+	userService := service.NewUserService(userMock)
+	submissionService := service.NewSubmissionService(mockRepo, userService)
 
 	ctx := context.Background()
 	submission := &entity.Submission{

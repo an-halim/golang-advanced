@@ -4,9 +4,10 @@ import (
 	"context"
 	"errors"
 
-	"github.com/an-halim/golang-advanced/session-7-pg-gorm/entity"
-	"github.com/an-halim/golang-advanced/session-7-pg-gorm/service"
-	mock_service "github.com/an-halim/golang-advanced/session-7-pg-gorm/test/mock/service"
+	"github.com/an-halim/golang-advanced/assignment-1/entity"
+	"github.com/an-halim/golang-advanced/assignment-1/request"
+	"github.com/an-halim/golang-advanced/assignment-1/service"
+	mock_service "github.com/an-halim/golang-advanced/assignment-1/test/mock/service"
 	"github.com/golang/mock/gomock"
 
 	"testing"
@@ -26,15 +27,18 @@ func TestUserService_CreateUser(t *testing.T) {
 	user := &entity.User{
 		Name:      "John Doe",
 		Email:     "john@example.com",
-		Password:  "password",
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	}
 
-	t.Run("PositiveCase", func(t *testing.T) {
-		mockRepo.EXPECT().CreateUser(ctx, user).Return(*user, nil)
+	request := request.CreateUserRequest{}
+	request.Name = user.Name
+	request.Email = user.Email
 
-		createdUser, err := userService.CreateUser(ctx, user)
+	t.Run("PositiveCase", func(t *testing.T) {
+		mockRepo.EXPECT().CreateUser(ctx, user).Return(&request, nil)
+
+		createdUser, err := userService.CreateUser(ctx, request)
 		assert.NoError(t, err)
 		assert.Equal(t, *user, createdUser)
 	})
@@ -42,7 +46,7 @@ func TestUserService_CreateUser(t *testing.T) {
 	t.Run("NegativeCase", func(t *testing.T) {
 		mockRepo.EXPECT().CreateUser(ctx, user).Return(entity.User{}, errors.New("failed to create user"))
 
-		createdUser, err := userService.CreateUser(ctx, user)
+		createdUser, err := userService.CreateUser(ctx, request)
 		assert.Error(t, err)
 		assert.Contains(t, err.Error(), "failed to create user")
 		assert.Equal(t, entity.User{}, createdUser)
@@ -62,7 +66,6 @@ func TestUserService_GetUserByID(t *testing.T) {
 		ID:        userID,
 		Name:      "John Doe",
 		Email:     "john@example.com",
-		Password:  "password",
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	}
@@ -98,15 +101,18 @@ func TestUserService_UpdateUser(t *testing.T) {
 		ID:        userID,
 		Name:      "John Doe",
 		Email:     "john@example.com",
-		Password:  "password",
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	}
 
+	request := request.UpdateUserRequest{}
+	request.Name = user.Name
+	request.Email = user.Email
+
 	t.Run("PositiveCase", func(t *testing.T) {
 		mockRepo.EXPECT().UpdateUser(ctx, userID, user).Return(user, nil)
 
-		updatedUser, err := userService.UpdateUser(ctx, userID, user)
+		updatedUser, err := userService.UpdateUser(ctx, userID, request)
 		assert.NoError(t, err)
 		assert.Equal(t, user, updatedUser)
 	})
@@ -114,7 +120,7 @@ func TestUserService_UpdateUser(t *testing.T) {
 	t.Run("NegativeCase", func(t *testing.T) {
 		mockRepo.EXPECT().UpdateUser(ctx, userID, user).Return(entity.User{}, errors.New("user not found"))
 
-		updatedUser, err := userService.UpdateUser(ctx, userID, user)
+		updatedUser, err := userService.UpdateUser(ctx, userID, request)
 		assert.Error(t, err)
 		assert.Contains(t, err.Error(), "user not found")
 		assert.Equal(t, entity.User{}, updatedUser)
@@ -160,7 +166,6 @@ func TestUserService_GetAllUsers(t *testing.T) {
 			ID:        1,
 			Name:      "John Doe",
 			Email:     "john@example.com",
-			Password:  "password",
 			CreatedAt: time.Now(),
 			UpdatedAt: time.Now(),
 		},
@@ -168,7 +173,6 @@ func TestUserService_GetAllUsers(t *testing.T) {
 			ID:        2,
 			Name:      "Jane Doe",
 			Email:     "jane@example.com",
-			Password:  "password",
 			CreatedAt: time.Now(),
 			UpdatedAt: time.Now(),
 		},

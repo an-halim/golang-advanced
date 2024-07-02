@@ -48,8 +48,8 @@ var RiskMapping = []ProfileRisk{
 			"Pada umumnya Anda sudah pernah atau berpengalaman dalam berinvestasi di produk investasi.",
 	},
 	{
-		MinScore: 60,
-		MaxScore: 1000,
+		MinScore: 36,
+		MaxScore: 40,
 		Category: ProfileRiskCategoryAggresive,
 		Definition: "Anda sangat berpengalaman terhadap produk investasi dan memiliki toleransi yang sangat tinggi atas" +
 			"produk-produk investasi. Anda bahkan dapat menerima perubahan signifikan pada modal/nilai investasi." +

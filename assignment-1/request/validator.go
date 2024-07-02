@@ -3,9 +3,8 @@ package request
 import "github.com/an-halim/golang-advanced/assignment-1/constant"
 
 // FindRiskProfile calculates the risk profile category based on the provided answers.
-func ValidateProfile(answers []Answers) (result constant.ProfileRisk) {
+func ValidateProfile(answers []Answers) (result constant.ProfileRisk, totalScore int) {
 	// Initialize the total score
-	totalScore := 0
 
 	// Iterate through each answer to find its weight and sum them up
 	for _, answer := range answers {
@@ -29,10 +28,10 @@ func ValidateProfile(answers []Answers) (result constant.ProfileRisk) {
 			result.Category = profileRisk.Category
 			result.Definition = profileRisk.Definition
 
-			return result
+			return result, totalScore
 		}
 	}
 
 	// Return Conservative as the default category if no match is found
-	return result
+	return result, totalScore
 }

@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/an-halim/golang-advanced/session-7-pg-gorm/entity"
+	"github.com/an-halim/golang-advanced/assignment-1/entity"
 )
 
 // IUserService mendefinisikan interface untuk layanan pengguna
