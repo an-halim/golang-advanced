@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+option go_package = "../proto/user/";
+
+package user;
+
+service UserService {
+  rpc AddUser (User) returns (Response) {}
+  rpc GetUser (ID) returns (Response) {}
+  rpc GetAllUser (Empty) returns (Response) {}
+  rpc UpdateUser (User) returns (Response) {}
+  rpc DeleteUser (ID) returns (ID) {}
+}
+
+message User {
+  int32 id = 1; // ID pengguna
+  string name = 2; // Nama pengguna
+  string email = 3; // Email pengguna
+}
+
+message Users {
+  repeated User users = 1;
+}
+
+message ID {
+  int32 id = 1; // ID pengguna
+}
+
+message Empty {}
+
+message ResponseGetAll{
+  string message = 1;
+  int32 limit = 2;
+  int32 page = 3;
+  repeated User data = 4;
+}
+
+message ResponseGetOne{
+  string message = 1;
+  User data = 2;
+}
+
+message ResponseCreate{
+  string message = 1;
+  User data = 2;
+}
+
+message ResponseFail{
+  string message = 1;
+}
+
+message Response {
+  oneof result {
+    ResponseGetAll getAll = 1;
+    ResponseGetOne getOne = 2;
+    ResponseCreate create = 3;
+    ResponseFail fail = 4;
+  }
+}
