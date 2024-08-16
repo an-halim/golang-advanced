@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bufio"
 	"encoding/csv"
+	"fmt"
 	"log"
 	"os"
 )
@@ -14,6 +16,9 @@ const (
 func main() {
 	// Read CSV file
 	csvFile, err := os.Open("./" + fileName)
+	reportFile, _ := os.Create("./report.log")
+	reportWriter := bufio.NewWriter(reportFile)
+	_ = reportWriter.Flush()
 	if err != nil {
 		log.Fatal("Error opening file: ", err)
 	}
@@ -30,5 +35,8 @@ func main() {
 		name, email := line[0], line[1]
 
 		log.Printf("Name: %s, Email: %s \n", name, email)
+		report := fmt.Sprintf("Name: %s, Email: %s \n", name, email)
+		_, _ = fmt.Fprintf(reportWriter, report)
+		_ = reportWriter.Flush()
 	}
 }
